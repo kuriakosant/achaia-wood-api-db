@@ -6,6 +6,7 @@ import categoryWoodRoutes from './routes/categoryWoodRoutes';
 import categoryGalleryRoutes from './routes/categoryGalleryRoutes';
 import orderRoutes from './routes/orderRoutes';
 import authRoutes from './routes/authRoutes';
+import contactMessageRoutes from './routes/contactMessageRoutes';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -21,6 +22,7 @@ import './models/productGalleryModel';
 import './models/categoryWoodModel';
 import './models/categoryGalleryModel';
 import './models/orderModel';
+import './models/contactMessageModel';
 
 // Test database connection
 import sequelize from './sequelize';
@@ -48,5 +50,6 @@ app.use(['/api/wood-categories', '/wood-categories'], categoryWoodRoutes);
 app.use(['/api/gallery-categories', '/gallery-categories'], categoryGalleryRoutes);
 app.use(['/api/orders', '/orders'], orderRoutes);
 app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/contact-messages', '/contact-messages'], contactMessageRoutes);
 
 export default app;

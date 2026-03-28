@@ -1,18 +1,19 @@
 import express from 'express';
 import { ContactMessage } from '../models/contactMessageModel';
-import { authenticateAdmin } from '../middleware/authMiddleware';
+import { verifyToken } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
 // @route   POST /api/contact-messages
 // @desc    Submit a new contact message from the frontend public form
 // @access  Public
-router.post('/', async (req, res) => {
+router.post('/', async (req, res): Promise<void> => {
     try {
         const { name, email, phone, message } = req.body;
         
         if (!name || !email || !phone || !message) {
-            return res.status(400).json({ message: 'All fields are required.' });
+            res.status(400).json({ message: 'All fields are required.' });
+            return;
         }
 
         const newMessage = await ContactMessage.create({
@@ -33,7 +34,7 @@ router.post('/', async (req, res) => {
 // @route   GET /api/contact-messages
 // @desc    Get all contact messages (newest first)
 // @access  Admin
-router.get('/', authenticateAdmin, async (req, res) => {
+router.get('/', verifyToken, async (req, res): Promise<void> => {
     try {
         const messages = await ContactMessage.findAll({
             order: [['createdAt', 'DESC']]
@@ -48,11 +49,12 @@ router.get('/', authenticateAdmin, async (req, res) => {
 // @route   PUT /api/contact-messages/:id/read
 // @desc    Toggle the read status of a message
 // @access  Admin
-router.put('/:id/read', authenticateAdmin, async (req, res) => {
+router.put('/:id/read', verifyToken, async (req, res): Promise<void> => {
     try {
         const message = await ContactMessage.findByPk(req.params.id);
         if (!message) {
-            return res.status(404).json({ message: 'Message not found' });
+            res.status(404).json({ message: 'Message not found' });
+            return;
         }
 
         message.isRead = !message.isRead;
@@ -68,11 +70,12 @@ router.put('/:id/read', authenticateAdmin, async (req, res) => {
 // @route   DELETE /api/contact-messages/:id
 // @desc    Delete a contact message
 // @access  Admin
-router.delete('/:id', authenticateAdmin, async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res): Promise<void> => {
     try {
         const message = await ContactMessage.findByPk(req.params.id);
         if (!message) {
-            return res.status(404).json({ message: 'Message not found' });
+            res.status(404).json({ message: 'Message not found' });
+            return;
         }
 
         await message.destroy();

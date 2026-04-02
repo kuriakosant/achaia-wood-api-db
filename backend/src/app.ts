@@ -30,10 +30,21 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('Connected to PostgreSQL database');
-    return sequelize.sync({ alter: true });
+    // We don't auto-sync on cold start as Vercel might kill the background process
+    // return sequelize.sync({ alter: true });
   })
-  .then(() => console.log('Database synced successfully'))
   .catch((err) => console.error('Failed to connect to PostgreSQL:', err));
+
+// Explicit DB Sync endpoint (to solve Vercel background execution freezing)
+app.get('/api/sync-db', async (req, res) => {
+  try {
+    await sequelize.sync({ alter: true });
+    res.status(200).json({ message: 'Database synced successfully' });
+  } catch (error) {
+    console.error('Sync error:', error);
+    res.status(500).json({ error: String(error) });
+  }
+});
 
 // Health Check & Root Route
 app.get('/', (req, res) => {

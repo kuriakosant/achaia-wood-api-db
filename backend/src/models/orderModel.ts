@@ -10,6 +10,8 @@ class Order extends Model {
   public specialInstructions!: string;
   public fileUrl!: string; // Base64 payload or an external URL
   public status!: string; // Pending, Reviewed, Completed
+  public afm!: string | null;
+  public companyName!: string | null;
   
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -49,6 +51,14 @@ Order.init({
     type: DataTypes.STRING,
     defaultValue: 'Pending',
     allowNull: false,
+  },
+  afm: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  companyName: {
+    type: DataTypes.STRING,
+    allowNull: true,
   }
 }, {
   sequelize,

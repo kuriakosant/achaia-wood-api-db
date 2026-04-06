@@ -22,6 +22,7 @@
     "mysql2": "^3.11.5",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
+    "resend": "^6.10.0",
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
@@ -31,6 +32,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/ms": "^2.1.0",
     "@types/node": "^22.10.2",
+    "@types/react": "^19.2.14",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"

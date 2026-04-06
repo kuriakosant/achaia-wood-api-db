@@ -1,6 +1,7 @@
 import express from 'express';
 import { ContactMessage } from '../models/contactMessageModel';
 import { verifyToken } from '../middleware/authMiddleware';
+import { sendNewContactMessageEmail } from '../services/emailService';
 
 const router = express.Router();
 
@@ -23,6 +24,9 @@ router.post('/', async (req, res): Promise<void> => {
             message,
             isRead: false
         });
+
+        // Send email non-blocking
+        sendNewContactMessageEmail(newMessage);
 
         res.status(201).json(newMessage);
     } catch (error) {

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import Order from '../models/orderModel';
+import { sendNewOrderEmail } from '../services/emailService';
 
 // Create a new order (Public)
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const { customerName, phone, paymentMethod, documentType, specialInstructions, fileUrl } = req.body;
+    const { customerName, phone, paymentMethod, documentType, specialInstructions, fileUrl, afm, companyName } = req.body;
     
     if (!customerName || !phone || !paymentMethod || !documentType) {
       res.status(400).json({ message: 'Τα πεδία Όνομα, Τηλέφωνο, Τρόπος Πληρωμής και Τύπος Παραστατικού είναι υποχρεωτικά.' });
@@ -18,8 +19,13 @@ export const createOrder = async (req: Request, res: Response) => {
       documentType,
       specialInstructions,
       fileUrl,
+      afm,
+      companyName,
       status: 'Pending'
     });
+
+    // Send email notification non-blocking
+    sendNewOrderEmail(order);
 
     res.status(201).json(order);
   } catch (error: any) {

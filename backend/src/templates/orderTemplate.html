@@ -1,0 +1,27 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
+    <div style="background-color: #16a34a; color: white; padding: 20px; text-align: center;">
+        <h2 style="margin: 0;">Νέα Παραγγελία! 📦</h2>
+    </div>
+    <div style="padding: 30px; background-color: #fafafa;">
+        <p style="font-size: 16px; color: #333;">Καλησπέρα,</p>
+        <p style="font-size: 16px; color: #333;">Λάβατε μια νέα παραγγελία μέσω της πλατφόρμας Achaia Wood.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background-color: white; border-radius: 8px;">
+            <tr><td style="padding: 10px; border-bottom: 1px solid #ddd; width: 35%;"><strong>Πελάτης:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">{{customerName}}</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Τηλέφωνο:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">{{phone}}</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Τρόπος Πληρωμής:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">{{paymentMethod}}</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Παραστατικό:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">{{documentType}}</td></tr>
+            {{invoiceDetails}}
+            <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Αρχείο Απεσταλμένο:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">{{hasFile}}</td></tr>
+        </table>
+        
+        <div style="margin-top: 20px; padding: 15px; background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
+            <strong>Οδηγίες:</strong> <br/>
+            {{specialInstructions}}
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="https://achaia-wood.vercel.app/admin" style="background-color: #16a34a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Προβολή στο Admin Panel</a>
+        </div>
+    </div>
+</div>

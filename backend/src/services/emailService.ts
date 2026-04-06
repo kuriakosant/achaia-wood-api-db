@@ -1,4 +1,6 @@
 import { Resend } from 'resend';
+import fs from 'fs';
+import path from 'path';
 
 // Initialize Resend with API key from environment variables
 // Make sure to add RESEND_API_KEY to your Vercel environment variables.
@@ -25,35 +27,16 @@ export const sendNewOrderEmail = async (orderData: any) => {
               `
             : '';
 
-        const htmlTemplate = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
-                <div style="background-color: #16a34a; color: white; padding: 20px; text-align: center;">
-                    <h2 style="margin: 0;">Νέα Παραγγελία! 📦</h2>
-                </div>
-                <div style="padding: 30px; background-color: #fafafa;">
-                    <p style="font-size: 16px; color: #333;">Καλησπέρα,</p>
-                    <p style="font-size: 16px; color: #333;">Λάβατε μια νέα παραγγελία μέσω της πλατφόρμας Achaia Wood.</p>
-                    
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background-color: white; border-radius: 8px;">
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd; width: 35%;"><strong>Πελάτης:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${orderData.customerName}</td></tr>
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Τηλέφωνο:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${orderData.phone}</td></tr>
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Τρόπος Πληρωμής:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${orderData.paymentMethod}</td></tr>
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Παραστατικό:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${orderData.documentType}</td></tr>
-                        ${invoiceDetails}
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Αρχείο Απεσταλμένο:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${hasFile}</td></tr>
-                    </table>
-                    
-                    <div style="margin-top: 20px; padding: 15px; background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
-                        <strong>Οδηγίες:</strong> <br/>
-                        ${orderData.specialInstructions || 'Δεν δόθηκαν επιπλέον οδηγίες.'}
-                    </div>
+        let htmlTemplate = fs.readFileSync(path.join(__dirname, '../templates/orderTemplate.html'), 'utf8');
 
-                    <div style="text-align: center; margin-top: 30px;">
-                        <a href="https://achaia-wood.vercel.app/admin" style="background-color: #16a34a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Προβολή στο Admin Panel</a>
-                    </div>
-                </div>
-            </div>
-        `;
+        htmlTemplate = htmlTemplate
+            .split('{{customerName}}').join(orderData.customerName || '')
+            .split('{{phone}}').join(orderData.phone || '')
+            .split('{{paymentMethod}}').join(orderData.paymentMethod || '')
+            .split('{{documentType}}').join(orderData.documentType || '')
+            .split('{{invoiceDetails}}').join(invoiceDetails)
+            .split('{{hasFile}}').join(hasFile)
+            .split('{{specialInstructions}}').join(orderData.specialInstructions || 'Δεν δόθηκαν επιπλέον οδηγίες.');
 
         await resend.emails.send({
             from: `Achaia Wood <${SENDER_EMAIL}>`,
@@ -74,32 +57,13 @@ export const sendNewContactMessageEmail = async (messageData: any) => {
     }
 
     try {
-        const htmlTemplate = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
-                <div style="background-color: #3b82f6; color: white; padding: 20px; text-align: center;">
-                    <h2 style="margin: 0;">Νέο Μήνυμα Επικοινωνίας ✉️</h2>
-                </div>
-                <div style="padding: 30px; background-color: #fafafa;">
-                    <p style="font-size: 16px; color: #333;">Καλησπέρα,</p>
-                    <p style="font-size: 16px; color: #333;">Λάβατε ένα νέο μήνυμα από τη φόρμα επικοινωνίας της ιστοσελίδας.</p>
-                    
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background-color: white; border-radius: 8px;">
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd; width: 35%;"><strong>Όνομα:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${messageData.name}</td></tr>
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${messageData.email}</td></tr>
-                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Τηλέφωνο:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${messageData.phone}</td></tr>
-                    </table>
-                    
-                    <h3 style="margin-top: 25px; color: #555;">Μήνυμα:</h3>
-                    <div style="padding: 15px; background-color: white; border: 1px solid #e5e7eb; border-radius: 6px; color: #444; line-height: 1.5;">
-                        ${messageData.message.replace(/\n/g, '<br/>')}
-                    </div>
-
-                    <div style="text-align: center; margin-top: 30px;">
-                        <a href="https://achaia-wood.vercel.app/admin" style="background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Προβολή στο Admin Panel</a>
-                    </div>
-                </div>
-            </div>
-        `;
+        let htmlTemplate = fs.readFileSync(path.join(__dirname, '../templates/messageTemplate.html'), 'utf8');
+        
+        htmlTemplate = htmlTemplate
+            .split('{{name}}').join(messageData.name || '')
+            .split('{{email}}').join(messageData.email || '')
+            .split('{{phone}}').join(messageData.phone || '')
+            .split('{{message}}').join((messageData.message || '').replace(/\n/g, '<br/>'));
 
         await resend.emails.send({
             from: `Achaia Wood <${SENDER_EMAIL}>`,

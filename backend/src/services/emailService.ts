@@ -38,11 +38,34 @@ export const sendNewOrderEmail = async (orderData: any) => {
             .split('{{hasFile}}').join(hasFile)
             .split('{{specialInstructions}}').join(orderData.specialInstructions || 'Δεν δόθηκαν επιπλέον οδηγίες.');
 
+        const attachments: any[] = [];
+        if (orderData.fileUrl && orderData.fileUrl.startsWith('data:')) {
+            const matches = orderData.fileUrl.match(/^data:(.+);base64,(.+)$/);
+            if (matches && matches.length === 3) {
+                const mimeType = matches[1];
+                const base64Data = matches[2];
+                
+                let ext = 'bin';
+                if (mimeType.includes('image/jpeg')) ext = 'jpg';
+                else if (mimeType.includes('image/png')) ext = 'png';
+                else if (mimeType.includes('application/pdf')) ext = 'pdf';
+                else if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) ext = 'xlsx';
+                else if (mimeType.includes('text/plain')) ext = 'txt';
+                else if (mimeType.includes('csv')) ext = 'csv';
+
+                attachments.push({
+                    filename: `${(orderData.customerName || 'Paraggelia').replace(/\s+/g, '_')}_Αρχείο.${ext}`,
+                    content: Buffer.from(base64Data, 'base64')
+                });
+            }
+        }
+
         await resend.emails.send({
             from: `Achaia Wood <${SENDER_EMAIL}>`,
             to: [ADMIN_EMAIL],
             subject: `Νέα Παραγγελία από: ${orderData.customerName}`,
             html: htmlTemplate,
+            attachments: attachments.length > 0 ? attachments : undefined
         });
         console.log('Order notification email sent successfully.');
     } catch (error) {

@@ -1,20 +1,33 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 
-// Initialize Resend with API key from environment variables
-// Make sure to add RESEND_API_KEY to your Vercel environment variables.
-const resendApiKey = process.env.RESEND_API_KEY;
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
-
-// The destination email address for all notifications
+// The sender email must be the info@achaiawood.gr
+const SENDER_EMAIL = process.env.SENDER_EMAIL || 'info@achaiawood.gr';
+const SENDER_PASSWORD = process.env.SENDER_PASSWORD || '';
+// The destination email address
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'antoniadis_oe@yahoo.gr'; 
-// The sender email must be verified on Resend (e.g. notifications@achaiawood.gr or onboarding@resend.dev for testing)
-const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev';
+
+let transporter: nodemailer.Transporter | null = null;
+
+if (SENDER_PASSWORD) {
+    transporter = nodemailer.createTransport({
+        host: 'mailgate.cosmotemail.gr',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: SENDER_EMAIL,
+            pass: SENDER_PASSWORD,
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+}
 
 export const sendNewOrderEmail = async (orderData: any) => {
-    if (!resend) {
-        console.warn('RESEND_API_KEY not found. Skipping order email notification.');
+    if (!transporter || !SENDER_PASSWORD) {
+        console.warn('SENDER_PASSWORD not found. Skipping order email notification.');
         return;
     }
 
@@ -60,9 +73,9 @@ export const sendNewOrderEmail = async (orderData: any) => {
             }
         }
 
-        await resend.emails.send({
-            from: `Achaia Wood <${SENDER_EMAIL}>`,
-            to: [ADMIN_EMAIL],
+        await transporter.sendMail({
+            from: `"Achaia Wood" <${SENDER_EMAIL}>`,
+            to: ADMIN_EMAIL,
             subject: `Νέα Παραγγελία από: ${orderData.customerName}`,
             html: htmlTemplate,
             attachments: attachments.length > 0 ? attachments : undefined
@@ -74,8 +87,8 @@ export const sendNewOrderEmail = async (orderData: any) => {
 };
 
 export const sendNewContactMessageEmail = async (messageData: any) => {
-    if (!resend) {
-        console.warn('RESEND_API_KEY not found. Skipping contact message email notification.');
+    if (!transporter || !SENDER_PASSWORD) {
+        console.warn('SENDER_PASSWORD not found. Skipping contact message email notification.');
         return;
     }
 
@@ -88,9 +101,9 @@ export const sendNewContactMessageEmail = async (messageData: any) => {
             .split('{{phone}}').join(messageData.phone || '')
             .split('{{message}}').join((messageData.message || '').replace(/\n/g, '<br/>'));
 
-        await resend.emails.send({
-            from: `Achaia Wood <${SENDER_EMAIL}>`,
-            to: [ADMIN_EMAIL],
+        await transporter.sendMail({
+            from: `"Achaia Wood" <${SENDER_EMAIL}>`,
+            to: ADMIN_EMAIL,
             subject: `Νέο Μήνυμα από τη φόρμα: ${messageData.name}`,
             html: htmlTemplate,
         });

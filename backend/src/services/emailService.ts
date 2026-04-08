@@ -6,7 +6,7 @@ import path from 'path';
 const SENDER_EMAIL = process.env.SENDER_EMAIL || 'info@achaiawood.gr';
 const SENDER_PASSWORD = process.env.SENDER_PASSWORD || '';
 // The destination email address
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'antoniadis_oe@yahoo.gr'; 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'antoniadis_oe@yahoo.gr';
 
 let transporter: nodemailer.Transporter | null = null;
 
@@ -33,10 +33,10 @@ export const sendNewOrderEmail = async (orderData: any) => {
 
     try {
         const hasFile = orderData.fileUrl ? 'Ναι (Επισυνάπτεται Πίνακας/Αρχείο στην πλατφόρμα)' : 'Όχι';
-        const invoiceDetails = orderData.documentType === 'Τιμολόγιο' 
+        const invoiceDetails = orderData.documentType === 'Τιμολόγιο'
             ? `
-                <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>ΑΦΜ:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${orderData.afm || '-'}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Εταιρεία:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${orderData.companyName || '-'}</td></tr>
+                <tr><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #6b7280; font-weight: 500;">ΑΦΜ</td><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #111827; font-weight: 600;">${orderData.afm || '-'}</td></tr>
+                <tr><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #6b7280; font-weight: 500;">Εταιρεία</td><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #111827; font-weight: 600;">${orderData.companyName || '-'}</td></tr>
               `
             : '';
 
@@ -57,7 +57,7 @@ export const sendNewOrderEmail = async (orderData: any) => {
             if (matches && matches.length === 3) {
                 const mimeType = matches[1];
                 const base64Data = matches[2];
-                
+
                 let ext = 'bin';
                 if (mimeType.includes('image/jpeg')) ext = 'jpg';
                 else if (mimeType.includes('image/png')) ext = 'png';
@@ -94,7 +94,7 @@ export const sendNewContactMessageEmail = async (messageData: any) => {
 
     try {
         let htmlTemplate = fs.readFileSync(path.join(__dirname, '../templates/messageTemplate.html'), 'utf8');
-        
+
         htmlTemplate = htmlTemplate
             .split('{{name}}').join(messageData.name || '')
             .split('{{email}}').join(messageData.email || '')
@@ -112,3 +112,5 @@ export const sendNewContactMessageEmail = async (messageData: any) => {
         console.error('Failed to send contact message notification email:', error);
     }
 };
+
+

@@ -13,8 +13,8 @@ let transporter: nodemailer.Transporter | null = null;
 if (SENDER_PASSWORD) {
     transporter = nodemailer.createTransport({
         host: 'mailgate.cosmotemail.gr',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        port: 465,
+        secure: true, // true for 465, false for other ports
         auth: {
             user: SENDER_EMAIL,
             pass: SENDER_PASSWORD,

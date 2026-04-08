@@ -1,58 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="margin: 0; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f9fafb;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);">
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+    <!-- Header -->
+    <div style="background-color: #2563eb; color: white; padding: 25px 20px; text-align: center;">
+        <h2 style="margin: 0; font-size: 24px; color: #ffffff;">Νέο Μήνυμα! ✉️</h2>
+        <p style="margin: 5px 0 0 0; font-size: 14px; color: #dbeafe; font-weight: normal;">Εισερχόμενο από το Achaia Wood</p>
+    </div>
+
+    <!-- Body -->
+    <div style="padding: 30px; background-color: #ffffff;">
+        <p style="margin-top: 0; font-size: 16px; color: #374151;"><strong>Καλησπέρα,</strong></p>
+        <p style="font-size: 15px; color: #4b5563; margin-bottom: 25px;">Ένας πελάτης έστειλε νέο μήνυμα μέσου της φόρμας επικοινωνίας:</p>
         
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 32px 40px; text-align: center;">
-            <p style="margin: 0; color: #bfdbfe; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Achaia Wood</p>
-            <h2 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Νέο Μήνυμα Επικοινωνίας ✉️</h2>
+        <!-- Table -->
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+            <tr>
+                <td style="padding: 12px 15px; width: 30%; color: #1e40af; font-weight: bold; border-bottom: 1px solid #e5e7eb; background-color: #eff6ff;">Όνομα:</td>
+                <td style="padding: 12px 15px; color: #1f2937; border-bottom: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; background-color: #ffffff;">{{name}}</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px 15px; color: #1e40af; font-weight: bold; border-bottom: 1px solid #e5e7eb; background-color: #eff6ff;">Email:</td>
+                <td style="padding: 12px 15px; color: #1f2937; border-bottom: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; background-color: #ffffff;">{{email}}</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px 15px; color: #1e40af; font-weight: bold; background-color: #eff6ff;">Τηλέφωνο:</td>
+                <td style="padding: 12px 15px; color: #1f2937; border-left: 1px solid #e5e7eb; background-color: #ffffff;">{{phone}}</td>
+            </tr>
+        </table>
+        
+        <!-- Message -->
+        <div style="margin-top: 25px;">
+            <strong style="color: #374151; font-size: 15px; display: block; margin-bottom: 8px;">Το μήνυμά του:</strong>
+            <div style="padding: 20px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; color: #334155; font-size: 15px; line-height: 1.6; white-space: pre-line;">{{message}}</div>
         </div>
 
-        <!-- Body -->
-        <div style="padding: 40px;">
-            <p style="margin: 0 0 8px 0; font-size: 16px; color: #374151; font-weight: 500;">Καλησπέρα,</p>
-            <p style="margin: 0 0 32px 0; font-size: 15px; color: #6b7280; line-height: 1.5;">Ένας πελάτης έστειλε νέο μήνυμα μέσω της φόρμας επικοινωνίας. Παρακάτω βρίσκονται τα στοιχεία του.</p>
-
-            <!-- Data Table -->
-            <div style="border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 32px;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <tr>
-                        <td style="width: 35%; padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #6b7280; font-weight: 500;">Όνομα</td>
-                        <td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #111827; font-weight: 600;">{{name}}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #6b7280; font-weight: 500;">Email</td>
-                        <td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #111827; font-weight: 600;">{{email}}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 14px 16px; font-size: 14px; color: #6b7280; font-weight: 500;">Τηλέφωνο</td>
-                        <td style="padding: 14px 16px; font-size: 14px; color: #111827; font-weight: 600;">{{phone}}</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Message Block -->
-            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
-                <p style="margin: 0 0 8px 0; color: #334155; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Μήνυμα Πελάτη</p>
-                <div style="margin: 0; color: #0f172a; font-size: 15px; line-height: 1.6; white-space: pre-line;">{{message}}</div>
-            </div>
-
-            <!-- Button -->
-            <div style="text-align: center;">
-                <a href="https://achaia-wood.vercel.app/admin" style="display: inline-block; background-color: #3b82f6; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none; padding: 14px 28px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);">
-                    Προβολή στο Admin Panel
-                </a>
-            </div>
-            
-            <p style="text-align: center; margin: 32px 0 0 0; font-size: 13px; color: #9ca3af;">
-                Αυτό το email στάλθηκε αυτόματα από το σύστημα Achaia Wood.
-            </p>
+        <div style="text-align: center; margin-top: 35px;">
+            <a href="https://achaiawood.gr/admin/login" style="background-color: #2563eb; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px; display: inline-block;">Προβολή στο Admin Panel</a>
         </div>
     </div>
-</body>
-</html>
+</div>

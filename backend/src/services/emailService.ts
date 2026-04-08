@@ -35,8 +35,8 @@ export const sendNewOrderEmail = async (orderData: any) => {
         const hasFile = orderData.fileUrl ? 'Ναι (Επισυνάπτεται Πίνακας/Αρχείο στην πλατφόρμα)' : 'Όχι';
         const invoiceDetails = orderData.documentType === 'Τιμολόγιο'
             ? `
-                <tr><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #6b7280; font-weight: 500;">ΑΦΜ</td><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #111827; font-weight: 600;">${orderData.afm || '-'}</td></tr>
-                <tr><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #6b7280; font-weight: 500;">Εταιρεία</td><td style="padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #111827; font-weight: 600;">${orderData.companyName || '-'}</td></tr>
+                <tr><td style="padding: 12px 15px; color: #166534; font-weight: bold; border-bottom: 1px solid #e5e7eb; background-color: #f0fdf4;">ΑΦΜ:</td><td style="padding: 12px 15px; color: #1f2937; border-bottom: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; background-color: #ffffff;">${orderData.afm || '-'}</td></tr>
+                <tr><td style="padding: 12px 15px; color: #166534; font-weight: bold; border-bottom: 1px solid #e5e7eb; background-color: #f0fdf4;">Εταιρεία:</td><td style="padding: 12px 15px; color: #1f2937; border-bottom: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; background-color: #ffffff;">${orderData.companyName || '-'}</td></tr>
               `
             : '';
 
